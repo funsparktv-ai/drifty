@@ -1,208 +1,229 @@
 
 <style>
-  .ad-wrap { font-family: var(--font-sans); padding: 1.5rem 0; }
-  .ad-card {
-    background: var(--color-background-primary);
-    border: 0.5px solid var(--color-border-tertiary);
+  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .outer {
+    background: var(--color-background-secondary);
     border-radius: var(--border-radius-lg);
-    overflow: hidden;
-    max-width: 640px;
+    padding: 3px;
+    max-width: 600px;
     margin: 0 auto;
   }
-  .ad-banner {
-    background: #0b0c14;
-    padding: 36px 32px 28px;
-    position: relative;
+  .inner {
+    background: var(--color-background-primary);
+    border-radius: 10px;
     overflow: hidden;
   }
-  .ad-banner-glow {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
+  .top-bar {
+    background: #0d0e14;
+    padding: 32px 28px 26px;
   }
-  .g1 { width: 300px; height: 300px; background: #7c6dfa22; top: -120px; left: -80px; filter: blur(80px); }
-  .g2 { width: 200px; height: 200px; background: #fa6d9a18; bottom: -80px; right: -40px; filter: blur(60px); }
-  .ad-banner-top {
+  .top-row {
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 22px;
-    position: relative;
-    z-index: 1;
+    gap: 12px;
+    margin-bottom: 20px;
   }
-  .ad-avatar {
-    width: 52px; height: 52px;
+  .avatar {
+    width: 42px; height: 42px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #7c6dfa, #fa6d9a);
+    background: #7c6dfa;
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
+    font-size: 18px;
     flex-shrink: 0;
-    border: 2px solid rgba(255,255,255,0.15);
   }
-  .ad-name { color: #fff; font-size: 18px; font-weight: 500; line-height: 1.2; }
-  .ad-sub { color: rgba(255,255,255,0.45); font-size: 12px; margin-top: 2px; font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; }
-  .ad-tagline {
-    color: #fff;
-    font-size: clamp(1.4rem, 4vw, 1.85rem);
+  .bot-name { color: #fff; font-size: 15px; font-weight: 500; line-height: 1.2; }
+  .bot-label {
+    font-size: 11px;
+    color: #7c6dfa;
+    font-family: var(--font-mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .online-pip {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #23a55a;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .headline {
+    font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: 500;
+    color: #fff;
     line-height: 1.15;
-    letter-spacing: -0.025em;
-    margin-bottom: 8px;
-    position: relative;
-    z-index: 1;
+    letter-spacing: -.025em;
+    margin-bottom: 10px;
   }
-  .ad-tagline span { color: #a89dfc; }
-  .ad-desc {
-    color: rgba(255,255,255,0.5);
+  .headline em { font-style: normal; color: #a89dfc; }
+  .sub {
     font-size: 13px;
+    color: rgba(255,255,255,0.42);
     line-height: 1.6;
-    max-width: 420px;
-    position: relative;
-    z-index: 1;
-    margin-top: 10px;
+    max-width: 400px;
   }
-  .ad-body { padding: 24px 28px; }
-  .feature-grid {
+  .body { padding: 20px 24px 24px; }
+  .feat-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-    gap: 10px;
-    margin-bottom: 22px;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 8px;
+    margin-bottom: 20px;
   }
   .feat {
     background: var(--color-background-secondary);
     border: 0.5px solid var(--color-border-tertiary);
     border-radius: var(--border-radius-md);
-    padding: 12px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    padding: 13px 14px;
   }
-  .feat-icon { font-size: 16px; margin-bottom: 2px; }
-  .feat-title { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
-  .feat-desc { font-size: 11px; color: var(--color-text-secondary); line-height: 1.4; }
-  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 20px 0; }
-  .ad-footer {
+  .feat-top {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 7px;
+    margin-bottom: 5px;
+  }
+  .feat-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .feat-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .feat-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.45; padding-left: 13px; }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .tag {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    padding: 3px 9px;
+    border-radius: 100px;
+  }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 0 0 20px; }
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
     flex-wrap: wrap;
   }
   .invite-btn {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 6px;
     background: #7c6dfa;
     color: #fff;
     font-size: 13px;
     font-weight: 500;
-    padding: 9px 18px;
+    padding: 9px 20px;
     border-radius: var(--border-radius-md);
     text-decoration: none;
     border: none;
     cursor: pointer;
-    transition: opacity .15s;
     font-family: var(--font-sans);
+    letter-spacing: -.01em;
+    transition: opacity .15s;
   }
-  .invite-btn:hover { opacity: 0.88; }
-  .invite-arrow { font-size: 14px; }
-  .stat-row {
+  .invite-btn:hover { opacity: .85; }
+  .invite-arrow { font-size: 13px; opacity: .8; }
+  .stats {
     display: flex;
-    gap: 16px;
+    gap: 20px;
     margin-left: auto;
-    flex-wrap: wrap;
   }
-  .stat { text-align: center; }
-  .stat-n { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
-  .stat-l { font-size: 11px; color: var(--color-text-secondary); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; }
-  .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
-  .tag {
-    font-size: 11px;
-    font-family: var(--font-mono);
-    letter-spacing: 0.05em;
-    padding: 3px 10px;
-    border-radius: 100px;
-    border: 0.5px solid var(--color-border-secondary);
-    color: var(--color-text-secondary);
-    background: var(--color-background-secondary);
-    text-transform: uppercase;
-  }
-  .tag.hi { background: #7c6dfa18; border-color: #7c6dfa44; color: #a89dfc; }
+  .stat-val { font-size: 14px; font-weight: 500; color: var(--color-text-primary); line-height: 1; }
+  .stat-lbl { font-size: 11px; color: var(--color-text-secondary); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .05em; margin-top: 3px; }
 </style>
 
-<div class="ad-wrap">
-  <div class="ad-card">
+<div class="wrap">
+  <div class="outer">
+    <div class="inner">
 
-    <div class="ad-banner">
-      <div class="ad-banner-glow g1"></div>
-      <div class="ad-banner-glow g2"></div>
-      <div class="ad-banner-top">
-        <div class="ad-avatar">🌀</div>
-        <div>
-          <div class="ad-name">Drifty</div>
-          <div class="ad-sub">Discord Bot · AI powered</div>
+      <div class="top-bar">
+        <div class="top-row">
+          <div class="avatar">🌀</div>
+          <div>
+            <div class="bot-name">Drifty</div>
+            <div class="bot-label">Discord Bot</div>
+          </div>
+          <div class="online-pip"></div>
         </div>
+        <div class="headline">the bot that actually<br><em>has a personality</em></div>
+        <div class="sub">ai chat, jjk rpg, among us, soundboard, roasts and more. nagi-coded. free forever.</div>
       </div>
-      <div class="ad-tagline">the bot that <span>actually has a personality</span></div>
-      <div class="ad-desc">AI chat, JJK domain expansion RPG, Among Us, soundboard, roasts, trivia, and a whole lot of chaos. built different.</div>
+
+      <div class="body">
+
+        <div class="feat-grid">
+          <div class="feat">
+            <div class="feat-top">
+              <div class="feat-dot" style="background:#a89dfc;"></div>
+              <div class="feat-title">AI chat</div>
+            </div>
+            <div class="feat-desc">replies like a real person, remembers context, has opinions</div>
+          </div>
+          <div class="feat">
+            <div class="feat-top">
+              <div class="feat-dot" style="background:#5dcaa5;"></div>
+              <div class="feat-title">JJK RPG</div>
+            </div>
+            <div class="feat-desc">domain clashes, cursed energy, boss fights, clans</div>
+          </div>
+          <div class="feat">
+            <div class="feat-top">
+              <div class="feat-dot" style="background:#e24b4a;"></div>
+              <div class="feat-title">Among Us</div>
+            </div>
+            <div class="feat-desc">full in-discord game, secret roles, tasks and kills</div>
+          </div>
+          <div class="feat">
+            <div class="feat-top">
+              <div class="feat-dot" style="background:#ef9f27;"></div>
+              <div class="feat-title">Soundboard</div>
+            </div>
+            <div class="feat-desc">vine boom, bruh, tts in vc, random ai voice lines</div>
+          </div>
+        </div>
+
+        <div class="tags">
+          <span class="tag">free</span>
+          <span class="tag">50+ cmds</span>
+          <span class="tag">roasts</span>
+          <span class="tag">trivia</span>
+          <span class="tag">polls</span>
+          <span class="tag">drama arcs</span>
+          <span class="tag">economy</span>
+          <span class="tag">?help</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="cta-row">
+          <a class="invite-btn" href="https://discord.com/oauth2/authorize?client_id=1485592763343966319" target="_blank">
+            Add to Discord <span class="invite-arrow">↗</span>
+          </a>
+          <div class="stats">
+            <div>
+              <div class="stat-val">50+</div>
+              <div class="stat-lbl">commands</div>
+            </div>
+            <div>
+              <div class="stat-val">free</div>
+              <div class="stat-lbl">always</div>
+            </div>
+            <div>
+              <div class="stat-val">?help</div>
+              <div class="stat-lbl">to start</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-
-    <div class="ad-body">
-      <div class="tag-row">
-        <span class="tag hi">ai chat</span>
-        <span class="tag hi">jjk rpg</span>
-        <span class="tag hi">among us</span>
-        <span class="tag">soundboard</span>
-        <span class="tag">economy</span>
-        <span class="tag">roasts</span>
-        <span class="tag">trivia</span>
-        <span class="tag">free</span>
-      </div>
-
-      <div class="feature-grid">
-        <div class="feat">
-          <div class="feat-icon">🧠</div>
-          <div class="feat-title">AI personality</div>
-          <div class="feat-desc">Nagi-coded, unbothered, actually funny. replies like a real person.</div>
-        </div>
-        <div class="feat">
-          <div class="feat-icon">⚔️</div>
-          <div class="feat-title">JJK RPG</div>
-          <div class="feat-desc">Domain clashes, cursed energy, binding vows, boss fights, clans.</div>
-        </div>
-        <div class="feat">
-          <div class="feat-icon">🔴</div>
-          <div class="feat-title">Among Us</div>
-          <div class="feat-desc">Full in-Discord Among Us with roles, kills, tasks and voting.</div>
-        </div>
-        <div class="feat">
-          <div class="feat-icon">🎛️</div>
-          <div class="feat-title">Soundboard</div>
-          <div class="feat-desc">Vine boom, bruh, goofy sounds + TTS in voice channels.</div>
-        </div>
-      </div>
-
-      <hr class="divider" />
-
-      <div class="ad-footer">
-        <a class="invite-btn" href="https://discord.com/oauth2/authorize?client_id=1485592763343966319" target="_blank">
-          Add to Discord <span class="invite-arrow">↗</span>
-        </a>
-        <div class="stat-row">
-          <div class="stat">
-            <div class="stat-n">50+</div>
-            <div class="stat-l">commands</div>
-          </div>
-          <div class="stat">
-            <div class="stat-n">free</div>
-            <div class="stat-l">forever</div>
-          </div>
-          <div class="stat">
-            <div class="stat-n">?help</div>
-            <div class="stat-l">to start</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
