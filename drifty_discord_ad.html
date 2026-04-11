@@ -1,229 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drifty — Ad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #06070a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
 
-<style>
-  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
-  .outer {
-    background: var(--color-background-secondary);
-    border-radius: var(--border-radius-lg);
-    padding: 3px;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  .inner {
-    background: var(--color-background-primary);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .top-bar {
-    background: #0d0e14;
-    padding: 32px 28px 26px;
-  }
-  .top-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .avatar {
-    width: 42px; height: 42px;
-    border-radius: 50%;
-    background: #7c6dfa;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-  .bot-name { color: #fff; font-size: 15px; font-weight: 500; line-height: 1.2; }
-  .bot-label {
-    font-size: 11px;
-    color: #7c6dfa;
-    font-family: var(--font-mono);
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-  .online-pip {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: #23a55a;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-  .headline {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    font-weight: 500;
-    color: #fff;
-    line-height: 1.15;
-    letter-spacing: -.025em;
-    margin-bottom: 10px;
-  }
-  .headline em { font-style: normal; color: #a89dfc; }
-  .sub {
-    font-size: 13px;
-    color: rgba(255,255,255,0.42);
-    line-height: 1.6;
-    max-width: 400px;
-  }
-  .body { padding: 20px 24px 24px; }
-  .feat-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0,1fr));
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-  .feat {
-    background: var(--color-background-secondary);
-    border: 0.5px solid var(--color-border-tertiary);
-    border-radius: var(--border-radius-md);
-    padding: 13px 14px;
-  }
-  .feat-top {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-bottom: 5px;
-  }
-  .feat-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .feat-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
-  .feat-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.45; padding-left: 13px; }
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 20px;
-  }
-  .tag {
-    font-size: 11px;
-    font-family: var(--font-mono);
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
-    background: var(--color-background-secondary);
-    border: 0.5px solid var(--color-border-tertiary);
-    padding: 3px 9px;
-    border-radius: 100px;
-  }
-  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 0 0 20px; }
-  .cta-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .invite-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #7c6dfa;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 9px 20px;
-    border-radius: var(--border-radius-md);
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    font-family: var(--font-sans);
-    letter-spacing: -.01em;
-    transition: opacity .15s;
-  }
-  .invite-btn:hover { opacity: .85; }
-  .invite-arrow { font-size: 13px; opacity: .8; }
-  .stats {
-    display: flex;
-    gap: 20px;
-    margin-left: auto;
-  }
-  .stat-val { font-size: 14px; font-weight: 500; color: var(--color-text-primary); line-height: 1; }
-  .stat-lbl { font-size: 11px; color: var(--color-text-secondary); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .05em; margin-top: 3px; }
-</style>
+    .ad-root {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      background: #0b0c10;
+      border-radius: 16px;
+      overflow: hidden;
+      max-width: 620px;
+      width: 100%;
+      position: relative;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .bl1 { width: 380px; height: 380px; background: #7c6dfa; opacity: .13; filter: blur(100px); top: -140px; left: -120px; }
+    .bl2 { width: 280px; height: 280px; background: #fa6d9a; opacity: .09; filter: blur(80px); bottom: -100px; right: -80px; }
 
-<div class="wrap">
-  <div class="outer">
-    <div class="inner">
+    .ad-content { position: relative; z-index: 1; padding: 36px 36px 32px; }
 
-      <div class="top-bar">
-        <div class="top-row">
-          <div class="avatar">🌀</div>
-          <div>
-            <div class="bot-name">Drifty</div>
-            <div class="bot-label">Discord Bot</div>
-          </div>
-          <div class="online-pip"></div>
-        </div>
-        <div class="headline">the bot that actually<br><em>has a personality</em></div>
-        <div class="sub">ai chat, jjk rpg, among us, soundboard, roasts and more. nagi-coded. free forever.</div>
+    .top-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .av {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: #7c6dfa;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      border: 1.5px solid rgba(124,109,250,0.4);
+      flex-shrink: 0;
+    }
+    .bot-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      letter-spacing: -.02em;
+    }
+    .bot-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #7c6dfa;
+      background: rgba(124,109,250,.12);
+      border: 1px solid rgba(124,109,250,.22);
+      padding: 2px 9px;
+      border-radius: 100px;
+      margin-top: 3px;
+      display: inline-block;
+    }
+    .online {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #23a55a;
+      margin-left: auto;
+      box-shadow: 0 0 0 2px rgba(35,165,90,.2);
+      flex-shrink: 0;
+    }
+
+    .headline {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.7rem, 4.5vw, 2.4rem);
+      line-height: 1.1;
+      letter-spacing: -.035em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .headline span { color: #a89dfc; }
+
+    .tagline {
+      color: rgba(255,255,255,.42);
+      font-size: .88rem;
+      line-height: 1.65;
+      max-width: 420px;
+      margin-bottom: 28px;
+    }
+
+    .divider { border: none; border-top: 1px solid #1e2130; margin: 24px 0; }
+
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .feat {
+      background: #111318;
+      border: 1px solid #1e2130;
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .feat-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .feat-pip {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .feat-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: .82rem;
+      color: #e2e4ef;
+      letter-spacing: -.01em;
+    }
+    .feat-desc {
+      font-size: .78rem;
+      color: #7b7f9a;
+      line-height: 1.5;
+      padding-left: 14px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 24px;
+    }
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: .63rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #7b7f9a;
+      background: #111318;
+      border: 1px solid #1e2130;
+      padding: 4px 11px;
+      border-radius: 100px;
+    }
+    .tag.hi {
+      color: #a89dfc;
+      background: rgba(124,109,250,.1);
+      border-color: rgba(124,109,250,.25);
+    }
+
+    .cta-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #7c6dfa;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: -.01em;
+      transition: opacity .15s, transform .1s;
+    }
+    .btn:hover { opacity: .85; transform: translateY(-1px); }
+    .btn-arrow { font-size: .8rem; opacity: .75; }
+
+    .stats {
+      display: flex;
+      gap: 20px;
+      margin-left: auto;
+    }
+    .stat-n {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: .95rem;
+      color: #e2e4ef;
+      letter-spacing: -.02em;
+      line-height: 1;
+    }
+    .stat-l {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #7b7f9a;
+      margin-top: 3px;
+    }
+
+    @media (max-width: 480px) {
+      .ad-content { padding: 24px 20px 22px; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .stats { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ad-root">
+  <div class="blob bl1"></div>
+  <div class="blob bl2"></div>
+
+  <div class="ad-content">
+
+    <div class="top-row">
+      <div class="av">🌀</div>
+      <div>
+        <div class="bot-name">Drifty</div>
+        <div class="bot-tag">Discord Bot</div>
       </div>
+      <div class="online"></div>
+    </div>
 
-      <div class="body">
+    <div class="headline">the bot that actually<br><span>has a personality</span></div>
+    <div class="tagline">ai chat, jjk rpg, among us, soundboard, roasts and more.<br>nagi-coded. unbothered. free forever.</div>
 
-        <div class="feat-grid">
-          <div class="feat">
-            <div class="feat-top">
-              <div class="feat-dot" style="background:#a89dfc;"></div>
-              <div class="feat-title">AI chat</div>
-            </div>
-            <div class="feat-desc">replies like a real person, remembers context, has opinions</div>
-          </div>
-          <div class="feat">
-            <div class="feat-top">
-              <div class="feat-dot" style="background:#5dcaa5;"></div>
-              <div class="feat-title">JJK RPG</div>
-            </div>
-            <div class="feat-desc">domain clashes, cursed energy, boss fights, clans</div>
-          </div>
-          <div class="feat">
-            <div class="feat-top">
-              <div class="feat-dot" style="background:#e24b4a;"></div>
-              <div class="feat-title">Among Us</div>
-            </div>
-            <div class="feat-desc">full in-discord game, secret roles, tasks and kills</div>
-          </div>
-          <div class="feat">
-            <div class="feat-top">
-              <div class="feat-dot" style="background:#ef9f27;"></div>
-              <div class="feat-title">Soundboard</div>
-            </div>
-            <div class="feat-desc">vine boom, bruh, tts in vc, random ai voice lines</div>
-          </div>
+    <div class="divider"></div>
+
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-head">
+          <div class="feat-pip" style="background:#a89dfc;"></div>
+          <div class="feat-title">AI chat</div>
         </div>
-
-        <div class="tags">
-          <span class="tag">free</span>
-          <span class="tag">50+ cmds</span>
-          <span class="tag">roasts</span>
-          <span class="tag">trivia</span>
-          <span class="tag">polls</span>
-          <span class="tag">drama arcs</span>
-          <span class="tag">economy</span>
-          <span class="tag">?help</span>
+        <div class="feat-desc">replies like a real person, remembers context, has opinions</div>
+      </div>
+      <div class="feat">
+        <div class="feat-head">
+          <div class="feat-pip" style="background:#5dcaa5;"></div>
+          <div class="feat-title">JJK RPG</div>
         </div>
-
-        <div class="divider"></div>
-
-        <div class="cta-row">
-          <a class="invite-btn" href="https://discord.com/oauth2/authorize?client_id=1485592763343966319" target="_blank">
-            Add to Discord <span class="invite-arrow">↗</span>
-          </a>
-          <div class="stats">
-            <div>
-              <div class="stat-val">50+</div>
-              <div class="stat-lbl">commands</div>
-            </div>
-            <div>
-              <div class="stat-val">free</div>
-              <div class="stat-lbl">always</div>
-            </div>
-            <div>
-              <div class="stat-val">?help</div>
-              <div class="stat-lbl">to start</div>
-            </div>
-          </div>
+        <div class="feat-desc">domain clashes, cursed energy, boss fights, clans</div>
+      </div>
+      <div class="feat">
+        <div class="feat-head">
+          <div class="feat-pip" style="background:#e24b4a;"></div>
+          <div class="feat-title">Among Us</div>
         </div>
-
+        <div class="feat-desc">full in-discord game, secret roles, tasks and kills</div>
+      </div>
+      <div class="feat">
+        <div class="feat-head">
+          <div class="feat-pip" style="background:#ef9f27;"></div>
+          <div class="feat-title">Soundboard</div>
+        </div>
+        <div class="feat-desc">vine boom, bruh, tts in vc, random ai voice lines</div>
       </div>
     </div>
+
+    <div class="tag-row">
+      <span class="tag hi">ai chat</span>
+      <span class="tag hi">jjk rpg</span>
+      <span class="tag hi">among us</span>
+      <span class="tag">roasts</span>
+      <span class="tag">trivia</span>
+      <span class="tag">polls</span>
+      <span class="tag">drama arcs</span>
+      <span class="tag">economy</span>
+      <span class="tag">free</span>
+      <span class="tag">?help</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="cta-row">
+      <a class="btn" href="https://discord.com/oauth2/authorize?client_id=1485592763343966319" target="_blank">
+        Add to Discord <span class="btn-arrow">↗</span>
+      </a>
+      <div class="stats">
+        <div>
+          <div class="stat-n">50+</div>
+          <div class="stat-l">commands</div>
+        </div>
+        <div>
+          <div class="stat-n">free</div>
+          <div class="stat-l">always</div>
+        </div>
+        <div>
+          <div class="stat-n">?help</div>
+          <div class="stat-l">to start</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+
+</body>
+</html>
