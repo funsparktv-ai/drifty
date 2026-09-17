@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-character="drifty">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drifty — Legal</title>
+  <title>Drifty &amp; Verity — Legal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
@@ -16,11 +16,22 @@
       --text:     #e2e4ef;
       --muted:    #7b7f9a;
       --tag-bg:   rgba(124,109,250,0.12);
+      --tag-bd:   rgba(124,109,250,0.25);
       --radius:   14px;
+      --transition: 480ms cubic-bezier(.16,.84,.44,1);
+    }
+
+    html[data-character="verity"] {
+      --bg:       #0e0c08;
+      --surface:  #16130c;
+      --border:   #2a2413;
+      --accent:   #e8c547;
+      --accent2:  #c9463d;
+      --tag-bg:   rgba(232,197,71,0.10);
+      --tag-bd:   rgba(232,197,71,0.28);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -32,9 +43,9 @@
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
+      transition: background var(--transition);
     }
 
-    /* subtle noise grain */
     body::before {
       content: '';
       position: fixed;
@@ -44,55 +55,57 @@
       z-index: 0;
     }
 
-    /* glow blobs */
     .blob {
       position: fixed;
       border-radius: 50%;
       filter: blur(120px);
       pointer-events: none;
       z-index: 0;
-      opacity: 0.18;
+      opacity: 0.16;
+      transition: background var(--transition);
     }
     .blob-1 { width: 500px; height: 500px; background: var(--accent); top: -180px; left: -140px; }
     .blob-2 { width: 400px; height: 400px; background: var(--accent2); bottom: -160px; right: -100px; }
 
-    /* layout */
     .wrapper {
       position: relative;
       z-index: 1;
-      max-width: 840px;
+      max-width: 860px;
       margin: 0 auto;
       padding: 0 24px 100px;
     }
 
-    /* nav / tabs */
+    /* ── top nav: character switch ─────────────────────────────── */
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(11,12,16,0.82);
+      background: rgba(11,12,16,0.86);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
       padding: 0 24px;
+      transition: background var(--transition), border-color var(--transition);
     }
     .nav-inner {
-      max-width: 840px;
+      max-width: 860px;
       margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 20px;
       height: 58px;
+      flex-wrap: wrap;
     }
     .nav-brand {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 1.1rem;
+      font-size: 1.02rem;
       letter-spacing: -0.02em;
       color: var(--text);
       display: flex;
       align-items: center;
       gap: 8px;
       text-decoration: none;
+      white-space: nowrap;
     }
     .nav-brand .dot {
       width: 8px; height: 8px;
@@ -100,22 +113,50 @@
       border-radius: 50%;
       display: inline-block;
       animation: pulse 2.4s ease-in-out infinite;
+      transition: background var(--transition);
     }
     @keyframes pulse {
       0%,100% { opacity: 1; transform: scale(1); }
       50%      { opacity: 0.4; transform: scale(0.75); }
     }
-    .tab-links { display: flex; gap: 4px; margin-left: auto; }
+
+    .char-switch {
+      display: flex;
+      gap: 2px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px;
+      margin-left: auto;
+    }
+    .char-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      padding: 7px 15px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color .2s, background .2s;
+    }
+    .char-btn.active { color: #0b0c10; background: var(--accent); font-weight: 600; }
+
+    .doc-switch { display: flex; gap: 4px; }
     .tab-link {
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       color: var(--muted);
       text-decoration: none;
-      padding: 6px 14px;
+      padding: 6px 13px;
       border-radius: 6px;
       border: 1px solid transparent;
+      background: none;
+      cursor: pointer;
       transition: color .2s, border-color .2s, background .2s;
     }
     .tab-link:hover, .tab-link.active {
@@ -124,72 +165,54 @@
       background: var(--tag-bg);
     }
 
-    /* hero */
+    /* ── hero ───────────────────────────────────────────────────── */
     .hero {
-      padding: 72px 0 48px;
+      padding: 60px 0 40px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 56px;
+      margin-bottom: 48px;
+      transition: border-color var(--transition);
     }
     .hero-tag {
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--accent);
       background: var(--tag-bg);
-      border: 1px solid rgba(124,109,250,0.25);
+      border: 1px solid var(--tag-bd);
       display: inline-block;
       padding: 4px 12px;
       border-radius: 4px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      transition: color var(--transition), background var(--transition), border-color var(--transition);
     }
     h1 {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-size: clamp(2rem, 5vw, 2.9rem);
       line-height: 1.1;
       letter-spacing: -0.035em;
       color: #fff;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-    h1 span { color: var(--accent); }
-    .hero-sub {
-      color: var(--muted);
-      font-size: 0.95rem;
-      max-width: 480px;
-    }
-    .meta-row {
-      display: flex;
-      gap: 24px;
-      margin-top: 24px;
-      flex-wrap: wrap;
-    }
-    .meta-item {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-    }
+    h1 span { color: var(--accent); transition: color var(--transition); }
+    .hero-sub { color: var(--muted); font-size: 0.92rem; max-width: 500px; }
+    .meta-row { display: flex; gap: 22px; margin-top: 22px; flex-wrap: wrap; }
+    .meta-item { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); letter-spacing: 0.06em; }
     .meta-item strong { color: var(--text); font-weight: 500; }
 
-    /* sections */
-    .doc-section {
-      display: none;
-      animation: fadeUp 0.35s ease both;
-    }
-    .doc-section.active { display: block; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    /* ── content panes ─────────────────────────────────────────── */
+    .pane { display: none; animation: fadeUp 0.35s ease both; }
+    .pane.active { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     h2 {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       letter-spacing: -0.02em;
       color: #fff;
-      margin-top: 52px;
+      margin-top: 48px;
       margin-bottom: 12px;
       display: flex;
       align-items: center;
@@ -198,132 +221,90 @@
     h2::before {
       content: '';
       display: inline-block;
-      width: 3px;
-      height: 1.1em;
+      width: 3px; height: 1.1em;
       background: var(--accent);
       border-radius: 2px;
       flex-shrink: 0;
+      transition: background var(--transition);
     }
     h2:first-of-type { margin-top: 0; }
 
-    p { color: var(--muted); margin-bottom: 14px; font-size: 0.925rem; }
+    p { color: var(--muted); margin-bottom: 14px; font-size: 0.915rem; }
     p strong { color: var(--text); font-weight: 500; }
 
-    ul {
-      list-style: none;
-      margin: 0 0 16px 0;
-      padding: 0;
-    }
+    ul { list-style: none; margin: 0 0 16px 0; padding: 0; }
     ul li {
-      font-size: 0.925rem;
-      color: var(--muted);
-      padding: 7px 0 7px 22px;
-      position: relative;
+      font-size: 0.915rem; color: var(--muted);
+      padding: 7px 0 7px 22px; position: relative;
       border-bottom: 1px solid var(--border);
+      transition: border-color var(--transition);
     }
     ul li:last-child { border-bottom: none; }
-    ul li::before {
-      content: '›';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-weight: 600;
+    ul li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 600; transition: color var(--transition); }
+    ul li strong { color: var(--text); font-weight: 500; }
+
+    code {
+      color: var(--accent); font-family: 'DM Mono', monospace;
+      background: var(--tag-bg); padding: 1px 5px; border-radius: 4px; font-size: 0.85em;
     }
 
     .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px 28px;
-      margin: 24px 0;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px 26px; margin: 22px 0;
+      transition: background var(--transition), border-color var(--transition);
     }
     .card-title {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px; transition: color var(--transition);
     }
 
     .highlight-box {
-      background: rgba(124,109,250,0.07);
-      border: 1px solid rgba(124,109,250,0.22);
-      border-left: 3px solid var(--accent);
-      border-radius: var(--radius);
-      padding: 18px 22px;
-      margin: 20px 0;
-      font-size: 0.88rem;
-      color: var(--text);
-      font-style: italic;
+      background: var(--tag-bg); border: 1px solid var(--tag-bd);
+      border-left: 3px solid var(--accent); border-radius: var(--radius);
+      padding: 16px 20px; margin: 18px 0; font-size: 0.87rem; color: var(--text); font-style: italic;
+      transition: background var(--transition), border-color var(--transition);
     }
 
     .warning-box {
-      background: rgba(250,109,154,0.07);
-      border: 1px solid rgba(250,109,154,0.22);
-      border-left: 3px solid var(--accent2);
-      border-radius: var(--radius);
-      padding: 18px 22px;
-      margin: 20px 0;
-      font-size: 0.88rem;
-      color: var(--text);
+      background: rgba(250,109,154,0.07); border: 1px solid rgba(250,109,154,0.22);
+      border-left: 3px solid var(--accent2); border-radius: var(--radius);
+      padding: 16px 20px; margin: 18px 0; font-size: 0.87rem; color: var(--text);
+      transition: border-color var(--transition);
+    }
+    html[data-character="verity"] .warning-box {
+      background: rgba(201,70,61,0.08); border-color: rgba(201,70,61,0.25);
     }
 
     .contact-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      margin-top: 48px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 26px; margin-top: 44px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+      transition: background var(--transition), border-color var(--transition);
     }
     .contact-icon {
-      width: 48px; height: 48px;
-      background: var(--tag-bg);
-      border: 1px solid rgba(124,109,250,0.25);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
+      width: 46px; height: 46px; background: var(--tag-bg); border: 1px solid var(--tag-bd);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; flex-shrink: 0; transition: background var(--transition), border-color var(--transition);
     }
-    .contact-text p { margin: 0; color: var(--muted); font-size: 0.85rem; }
-    .contact-text strong { color: #fff; font-size: 0.95rem; display: block; margin-bottom: 3px; }
+    .contact-text p { margin: 0; color: var(--muted); font-size: 0.84rem; }
+    .contact-text strong { color: #fff; font-size: 0.93rem; display: block; margin-bottom: 3px; }
 
-    /* section divider */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 48px 0;
-    }
-
-    /* footer */
     footer {
-      margin-top: 80px;
-      padding-top: 28px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
+      margin-top: 72px; padding-top: 26px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+      transition: border-color var(--transition);
     }
-    footer p {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--muted);
-      margin: 0;
-      letter-spacing: 0.05em;
+    footer p { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--muted); margin: 0; letter-spacing: 0.05em; }
+
+    .verity-strapline {
+      font-family: 'DM Mono', monospace; font-style: normal; font-size: 0.78rem;
     }
 
-    @media (max-width: 560px) {
-      .nav-inner { gap: 16px; }
-      .tab-link { padding: 5px 10px; font-size: 0.65rem; }
-      .meta-row { gap: 14px; }
+    @media (max-width: 620px) {
+      .nav-inner { gap: 12px; height: auto; padding: 10px 0; }
+      .char-switch { margin-left: 0; order: 3; width: 100%; justify-content: center; }
+      .doc-switch { order: 2; }
+      .tab-link { padding: 5px 10px; font-size: 0.63rem; }
       .contact-box { flex-direction: column; }
     }
   </style>
@@ -335,12 +316,14 @@
 
 <nav>
   <div class="nav-inner">
-    <a class="nav-brand" href="#">
-      <span class="dot"></span>drifty
-    </a>
-    <div class="tab-links">
-      <a class="tab-link active" href="#" onclick="showSection('tos', this); return false;">ToS</a>
-      <a class="tab-link" href="#" onclick="showSection('privacy', this); return false;">Privacy</a>
+    <a class="nav-brand" href="#"><span class="dot"></span><span id="brand-label">drifty</span></a>
+    <div class="doc-switch">
+      <button class="tab-link active" data-doc="tos" onclick="setDoc('tos', this)">ToS</button>
+      <button class="tab-link" data-doc="privacy" onclick="setDoc('privacy', this)">Privacy</button>
+    </div>
+    <div class="char-switch">
+      <button class="char-btn active" data-char="drifty" onclick="setChar('drifty', this)">Drifty</button>
+      <button class="char-btn" data-char="verity" onclick="setChar('verity', this)">Verity</button>
     </div>
   </div>
 </nav>
@@ -348,244 +331,379 @@
 <div class="wrapper">
 
   <div class="hero">
-    <div class="hero-tag">Discord Bot · Legal Documents</div>
-    <h1>Drifty <span>Legal</span></h1>
-    <p class="hero-sub">Terms of Service and Privacy Policy governing the use of the Drifty Discord bot.</p>
+    <div class="hero-tag" id="hero-tag">Discord Bot · Legal Documents</div>
+    <h1 id="hero-title">Drifty <span>Legal</span></h1>
+    <p class="hero-sub" id="hero-sub">Terms of Service and Privacy Policy governing the use of the Drifty Discord bot, including its Verity personality.</p>
     <div class="meta-row">
       <div class="meta-item">effective <strong>April 2025</strong></div>
-      <div class="meta-item">last updated <strong>April 11, 2026</strong></div>
-      <div class="meta-item">bot <strong>Drifty#&zwj;0332</strong></div>
+      <div class="meta-item">last updated <strong>September 17, 2026</strong></div>
+      <div class="meta-item">covers <strong>Drifty + Verity</strong></div>
     </div>
   </div>
 
-  <!-- ═══════════════ TERMS OF SERVICE ═══════════════ -->
-  <div id="tos" class="doc-section active">
+  <!-- ══════════════════ DRIFTY · TOS ══════════════════ -->
+  <div id="drifty-tos" class="pane active">
 
     <h2>1. Acceptance of Terms</h2>
-    <p>By adding Drifty to your Discord server, or by interacting with Drifty in any server where it is present, you agree to be bound by these Terms of Service. If you do not agree, please remove Drifty from your server or refrain from using its features.</p>
-    <p>These Terms apply to all users — server administrators who add the bot, members who interact with it, and any third parties who access information processed by the bot.</p>
+    <p>By adding Drifty to your Discord server, or by interacting with Drifty (or its secondary personality, Verity — see the Verity tab) in any server where it is present, you agree to be bound by these Terms. If you don't agree, remove the bot or stop interacting with it.</p>
+    <p>These Terms bind everyone who touches the bot: the admin who added it, members who talk to it, and anyone whose messages it processes.</p>
 
-    <h2>2. Description of Service</h2>
-    <p>Drifty is a feature-rich Discord bot that provides the following services to Discord servers:</p>
+    <h2>2. What Drifty Does</h2>
     <div class="card">
-      <div class="card-title">Core Features</div>
+      <div class="card-title">Core Systems</div>
       <ul>
-        <li>AI-powered chat responses using the Cerebras language model API</li>
-        <li>Server moderation tools and configurable personality modes</li>
-        <li>A JJK-themed RPG system (Domain Expansion) with economy mechanics</li>
-        <li>Among Us mini-game via Discord</li>
-        <li>Voice channel soundboard and TTS capabilities</li>
-        <li>Fun commands including roasts, polls, trivia, and more</li>
-        <li>Server analytics, user profiles, and memory across conversations</li>
+        <li><strong>Conversational AI</strong> — chat replies generated through a rotating set of language-model providers (see §6)</li>
+        <li><strong>Domain Expansion RPG</strong> — a JJK-themed progression system: grades, domains, shikigami, skill trees, crafting, and equipment, all running on the Cursed Energy (CE) economy</li>
+        <li><strong>Clans</strong> — persistent player clans with treasuries, prestige, and 24-hour clan wars settled by DB-tracked HP pools</li>
+        <li><strong>Tournaments</strong> — round-robin CE-entry competitions using the same clash engine as the RPG, with pooled prize payouts</li>
+        <li><strong>Murder Mystery</strong> — a social-deduction party game with secret DM-assigned roles (Murderer, Detective, and others) run through lobby → night → discussion → vote cycles</li>
+        <li><strong>Music playback</strong> — owner-restricted voice-channel audio streaming</li>
+        <li><strong>Voice soundboard &amp; TTS</strong> — meme sounds and spoken replies in voice channels</li>
+        <li><strong>Social &amp; fun layer</strong> — roasts, ships, polls, confessions, highlight reels, catchphrases, rivalries, alliances, and server-wide "chaos" events</li>
+        <li><strong>Server tools</strong> — moderation utilities, per-server personality/mood configuration, and a "silence" system for muting the bot in specific channels</li>
       </ul>
     </div>
+    <p>Drifty also carries a second, distinct personality called <strong>Verity</strong>, with his own behavior, voice presence, and data practices — those are documented separately under the Verity tab above, and this document should be read alongside it.</p>
 
     <h2>3. Eligibility &amp; Server Requirements</h2>
-    <p>To use Drifty, you must:</p>
     <ul>
-      <li>Be at least 13 years of age (or the minimum age required by Discord in your jurisdiction)</li>
-      <li>Comply with Discord's <a href="https://discord.com/terms" style="color:var(--accent);">Terms of Service</a> and Community Guidelines</li>
-      <li>Have the necessary server permissions to add or manage bots in a server</li>
+      <li>You must be at least 13 (or the minimum age required by Discord in your jurisdiction)</li>
+      <li>You must comply with <a href="https://discord.com/terms" style="color:var(--accent);">Discord's Terms of Service</a> and Community Guidelines</li>
+      <li>Adding or configuring the bot requires the relevant server permissions</li>
     </ul>
 
     <h2>4. Acceptable Use</h2>
-    <p>You agree <strong>not</strong> to use Drifty to:</p>
+    <p>You agree <strong>not</strong> to use Drifty or Verity to:</p>
     <ul>
       <li>Harass, threaten, bully, or harm any individual</li>
-      <li>Generate, store, or distribute illegal content of any kind</li>
-      <li>Attempt to exploit, reverse-engineer, or abuse the bot's AI capabilities</li>
-      <li>Circumvent rate limits, cooldowns, or access restrictions intentionally</li>
-      <li>Use the bot in servers that promote hate speech, extremism, or targeted harassment</li>
-      <li>Spam commands in a way that degrades service for other users</li>
-      <li>Impersonate Drifty's developers or misrepresent the bot's affiliations</li>
+      <li>Generate, store, or distribute illegal content</li>
+      <li>Exploit, reverse-engineer, or abuse the bot's AI, economy, or matchmaking systems — including manipulating CE balances, tournament payouts, or clan war contributions through bugs rather than gameplay</li>
+      <li>Circumvent rate limits, cooldowns, or access restrictions</li>
+      <li>Deploy the bot in servers built around hate speech, extremism, or targeted harassment</li>
+      <li>Spam commands in a way that degrades service for others</li>
+      <li>Impersonate the developers or misrepresent the bot's affiliations</li>
     </ul>
 
     <div class="warning-box">
-      <strong>Zero Tolerance:</strong> Any use of Drifty to facilitate harm against minors, including but not limited to grooming, CSAM, or exploitation, will result in immediate permanent blacklisting and may be reported to law enforcement and Discord Trust &amp; Safety.
+      <strong>Zero tolerance:</strong> using Drifty or Verity to facilitate harm against minors — grooming, CSAM, or exploitation in any form — results in an immediate, permanent blacklist and may be reported to Discord Trust &amp; Safety and law enforcement.
     </div>
 
-    <h2>5. Virtual Economy &amp; In-Bot Currency</h2>
-    <p>Drifty operates a virtual currency system called <strong>Cursed Energy (CE)</strong> used within the JJK RPG module. Please note:</p>
+    <h2>5. Cursed Energy &amp; the Virtual Economy</h2>
     <ul>
-      <li>CE has no real-world monetary value and cannot be exchanged for real currency</li>
-      <li>CE balances, domain assignments, and RPG progression may be reset or wiped at any time without notice or compensation</li>
-      <li>The developers are not responsible for any loss of virtual items or currency</li>
-      <li>Economy balancing changes may be made at any time at the developers' discretion</li>
+      <li>Cursed Energy (CE) has no real-world monetary value and cannot be redeemed for cash</li>
+      <li>CE balances, domain assignments, skill points, clan treasuries, and RPG progression may be reset or wiped at any time without notice or compensation</li>
+      <li>Tournament entry fees are pooled in CE and paid out per the tournament's stated split; cancelled tournaments are refunded to entrants, but the developers are not liable for lost CE from bugs, disconnects, or abandoned games</li>
+      <li>Economy balancing (drop rates, prices, war formulas) may change at the developers' discretion</li>
     </ul>
 
-    <h2>6. AI-Generated Content</h2>
-    <p>Drifty uses third-party AI APIs (Cerebras / LLaMA) to generate conversational responses. By interacting with Drifty's AI features, you acknowledge:</p>
+    <h2>6. AI-Generated Content &amp; Providers</h2>
+    <p>Drifty's replies are produced by a language model selected from a prioritized chain of third-party providers (currently Gemini, Mistral, Groq, HuggingFace, LLM7, Cohere, OpenRouter, and Cerebras). The bot automatically falls back to the next available provider if one is unreachable, rate-limited, or missing a key — this only changes which service generates the text, never Drifty's configured personality or the prompt it's given. By talking to Drifty you acknowledge:</p>
     <ul>
-      <li>AI responses are generated automatically and may be inaccurate, inappropriate, or unexpected</li>
-      <li>The developers do not review or moderate AI outputs in real-time</li>
-      <li>You should not rely on AI responses for legal, medical, financial, or safety-critical decisions</li>
-      <li>Content generated by the AI does not represent the views or opinions of Drifty's developers</li>
-      <li>Messages you send to Drifty may be sent to third-party AI API providers for processing</li>
+      <li>Replies are generated automatically and may be inaccurate, inappropriate, or unexpected</li>
+      <li>Outputs are not reviewed or moderated in real time</li>
+      <li>You should not rely on AI replies for legal, medical, financial, or safety-critical decisions</li>
+      <li>Generated content reflects the model and prompt, not the personal views of the developers</li>
+      <li>Your messages may be transmitted to whichever third-party provider is currently active to generate a response</li>
+    </ul>
+    <div class="highlight-box">Drifty is built to be casual and entertaining. Nothing it says is professional advice.</div>
+
+    <h2>7. Games &amp; Social Features</h2>
+    <p>Murder Mystery, Tournaments, and Clan Wars are provided for entertainment. Role assignments are sent via Discord DM and depend on your DMs being open to the bot; lobby sizes, timers, and payout structures may change between runs. The developers are not responsible for a game ending early due to Discord outages, players leaving, or DM delivery failures.</p>
+
+    <h2>8. Bot Availability &amp; Modifications</h2>
+    <ul>
+      <li>Drifty and Verity are provided "as is," with no uptime or availability guarantee</li>
+      <li>Features, commands, and behavior may be added, changed, or removed without notice</li>
+      <li>These Terms may be updated at any time — continued use after an update means you accept the revised Terms</li>
+      <li>Users or servers violating these Terms may be blacklisted</li>
     </ul>
 
-    <div class="highlight-box">
-      Drifty's AI responses are designed to be casual and entertaining. They are not professional advice of any kind.
-    </div>
+    <h2>9. Limitation of Liability</h2>
+    <p>To the maximum extent permitted by law, the developers are not liable for indirect, incidental, special, consequential, or punitive damages — including lost data, server disruption, lost CE or game progress, or harm arising from AI-generated content.</p>
 
-    <h2>7. Bot Availability &amp; Modifications</h2>
-    <p>Drifty is provided "as is" without any guarantees of uptime, availability, or continuity of service. The developers reserve the right to:</p>
-    <ul>
-      <li>Modify, suspend, or discontinue any feature or the entire bot at any time</li>
-      <li>Update these Terms of Service — continued use constitutes acceptance of changes</li>
-      <li>Add, remove, or change commands and their behavior without notice</li>
-      <li>Blacklist users or servers that violate these Terms</li>
-    </ul>
+    <h2>10. Termination</h2>
+    <p>We may terminate or restrict access for any user or server that violates these Terms. You can remove the bot at any time through Discord's server settings. After removal, your server's stored data may be retained for up to 30 days before deletion.</p>
 
-    <h2>8. Limitation of Liability</h2>
-    <p>To the maximum extent permitted by applicable law, Drifty's developers shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of data, server disruptions, or any harm arising from AI-generated content.</p>
-
-    <h2>9. Termination</h2>
-    <p>We reserve the right to terminate or restrict access to Drifty for any user or server that violates these Terms. You may remove Drifty from your server at any time using Discord's server settings. Upon removal, your server's data may be retained for a period of up to 30 days before deletion.</p>
-
-    <h2>10. Governing Law</h2>
-    <p>These Terms shall be governed by and construed in accordance with applicable laws. Any disputes shall be resolved through good-faith negotiation between the parties.</p>
+    <h2>11. Governing Law</h2>
+    <p>These Terms are governed by applicable law where the developers operate. Disputes are handled through good-faith negotiation between the parties first.</p>
 
     <div class="contact-box">
       <div class="contact-icon">✉️</div>
       <div class="contact-text">
         <strong>Questions about these Terms?</strong>
-        <p>Contact the bot developers via the official Drifty Discord support server or reach out to the bot owner directly through Discord.</p>
+        <p>Reach the developers through the official Drifty support server or a direct message to the bot owner on Discord.</p>
       </div>
     </div>
-
   </div>
 
-  <!-- ═══════════════ PRIVACY POLICY ═══════════════ -->
-  <div id="privacy" class="doc-section">
+  <!-- ══════════════════ DRIFTY · PRIVACY ══════════════════ -->
+  <div id="drifty-privacy" class="pane">
 
     <h2>1. Overview</h2>
-    <p>This Privacy Policy describes how Drifty ("the bot", "we") collects, stores, uses, and protects information when you interact with the bot on Discord. We are committed to handling your data responsibly and transparently.</p>
-    <div class="highlight-box">
-      Drifty is not a commercial product. No data is sold, monetised, or shared with advertisers. Data collection exists solely to enable the bot's features.
-    </div>
+    <p>This policy covers what Drifty's core personality collects, stores, and shares while operating in your server. Verity's additional practices — voice listening, remembered facts, mood tracking — are covered in his own Privacy tab.</p>
+    <div class="highlight-box">Drifty is not a commercial product. Nothing collected here is sold, monetised, or shared with advertisers — it exists purely to run the bot's features.</div>
 
     <h2>2. Information We Collect</h2>
-    <p>Drifty collects and stores the following information in a local SQLite database:</p>
-
     <div class="card">
-      <div class="card-title">User Data</div>
+      <div class="card-title">Identity &amp; Activity</div>
       <ul>
-        <li><strong>Discord user ID</strong> — a numerical identifier assigned by Discord</li>
-        <li><strong>Username</strong> — your Discord username at the time of interaction</li>
-        <li><strong>Message count</strong> — number of messages sent in servers where Drifty is active</li>
-        <li><strong>Activity timestamps</strong> — when you were last seen active</li>
-        <li><strong>Trust &amp; reputation scores</strong> — internally computed values for personalised responses</li>
-        <li><strong>Streak data</strong> — consecutive activity days</li>
-        <li><strong>RPG/game stats</strong> — Cursed Energy, domain, grade, shikigami, vows, skills, etc.</li>
-        <li><strong>Behavioural notes</strong> — short AI-generated summaries of your chat style (max 300 chars)</li>
-        <li><strong>Callback phrases</strong> — memorable snippets from your messages stored for personality callbacks</li>
+        <li><strong>Discord user ID and username</strong> at time of interaction</li>
+        <li><strong>Message counts, activity timestamps, and streaks</strong></li>
+        <li><strong>Trust, reputation, and karma scores</strong> computed for personalised responses</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">RPG, Economy &amp; Social Data</div>
+      <ul>
+        <li>Cursed Energy balance, domain, grade, shikigami, skill trees/points, materials, crafted and equipped items, quest progress, cooldowns</li>
+        <li>Clan membership, treasuries, war contributions, and standings</li>
+        <li>Tournament entries, standings, and history</li>
+        <li>Rivalries, alliances, catchphrases, callback phrases, milestones, and chaos-event participation</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Server &amp; Conversation Data</div>
+      <ul>
+        <li>Guild and channel IDs, feature toggles, personality/mood configuration, and the silence map</li>
+        <li>A rolling window of the most recent chat history per channel, kept only to give the AI conversational context</li>
+        <li>Anonymous confessions and flagged "highlights" — held in memory only, never written to disk, and lost on a bot restart</li>
       </ul>
     </div>
 
-    <div class="card">
-      <div class="card-title">Server Data</div>
-      <ul>
-        <li><strong>Guild ID</strong> — Discord's identifier for your server</li>
-        <li><strong>Channel IDs</strong> — identifiers for channels where Drifty operates</li>
-        <li><strong>Server configuration</strong> — feature toggles, personality modes, chaos stats, mood scores</li>
-        <li><strong>Channel setup</strong> — IDs of designated Drifty channels</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Message / Conversation Data</div>
-      <ul>
-        <li><strong>Chat history</strong> — up to the last 30 messages per channel stored for AI context (rolling window)</li>
-        <li><strong>Anonymous confessions</strong> — content submitted via <code style="color:var(--accent);font-family:'DM Mono',monospace;">?confess</code>, stored in memory only (not database)</li>
-        <li><strong>Highlights</strong> — short snippets flagged as funny/notable, stored in memory only</li>
-      </ul>
-    </div>
-
-    <h2>3. How We Use Your Information</h2>
+    <h2>3. How We Use It</h2>
     <ul>
-      <li>To deliver personalised AI chat responses based on interaction history</li>
-      <li>To power RPG game mechanics, economy balances, and progression tracking</li>
-      <li>To detect returning users, streaks, milestones, and absences</li>
-      <li>To enable rivalry, alliance, and drama arc features</li>
-      <li>To moderate bot behaviour (silence system, trust scores)</li>
-      <li>To generate server-wide summaries, recaps, and statistics</li>
+      <li>To generate contextual, personalised AI replies</li>
+      <li>To run the RPG, clan, and tournament economies and track progression</li>
+      <li>To detect returning users, streaks, milestones, and long absences for flavor features</li>
+      <li>To power rivalry, alliance, and social "drama" mechanics</li>
+      <li>To moderate bot behavior (the silence system, trust/reputation gating)</li>
+      <li>To generate server summaries, recaps, and stats</li>
     </ul>
-    <p>We do <strong>not</strong> use your data for advertising, profiling beyond bot functionality, or sharing with third parties beyond what is necessary to operate the bot.</p>
+    <p>We do <strong>not</strong> use this data for advertising or profiling beyond what these features need, and we don't sell or share it beyond the processors listed below.</p>
 
-    <h2>4. Third-Party Services</h2>
-    <p>Drifty passes message content to the following third-party APIs for AI processing:</p>
+    <h2>4. Third-Party Processors</h2>
     <div class="card">
-      <div class="card-title">External APIs Used</div>
+      <div class="card-title">AI &amp; Voice APIs</div>
       <ul>
-        <li><strong>Cerebras Cloud SDK</strong> — message content is sent to generate AI responses. Governed by <a href="https://cerebras.ai/privacy" style="color:var(--accent);">Cerebras' Privacy Policy</a></li>
-        <li><strong>Google Text-to-Speech (gTTS)</strong> — text is sent to Google for TTS audio generation in voice channels. Governed by <a href="https://policies.google.com/privacy" style="color:var(--accent);">Google's Privacy Policy</a></li>
+        <li><strong>Language model providers</strong> (rotated for availability): Gemini, Mistral, Groq, HuggingFace, LLM7, Cohere, OpenRouter, and Cerebras — each governed by its own provider's privacy policy; message content is sent to whichever is currently active to generate a reply</li>
+        <li><strong>Google Text-to-Speech (gTTS)</strong> — text sent to Google to produce spoken audio in voice channels, governed by <a href="https://policies.google.com/privacy" style="color:var(--accent);">Google's Privacy Policy</a></li>
       </ul>
     </div>
-    <p>By using Drifty's AI chat and TTS features, you acknowledge that message content may be processed by these third-party services.</p>
 
     <h2>5. Data Retention</h2>
     <ul>
-      <li><strong>Chat history</strong> — automatically trimmed to the most recent 30 messages per channel</li>
-      <li><strong>Callback phrases</strong> — capped at 50 entries per server, oldest removed automatically</li>
-      <li><strong>Confession data</strong> — stored in memory only; lost on bot restart</li>
-      <li><strong>User profiles</strong> — retained as long as the bot is present in the server</li>
-      <li><strong>Post-removal</strong> — server data may be retained for up to 30 days after Drifty is removed from a server</li>
+      <li><strong>Chat history</strong> — trimmed automatically to the most recent messages per channel</li>
+      <li><strong>Callback phrases</strong> — capped per server, oldest entries dropped automatically</li>
+      <li><strong>Confessions &amp; highlights</strong> — memory-only, capped, and cleared on bot restart</li>
+      <li><strong>Profiles, RPG, clan, and tournament data</strong> — retained as long as the bot remains in your server</li>
+      <li><strong>Post-removal</strong> — server data may be kept up to 30 days after Drifty leaves before deletion</li>
     </ul>
 
     <h2>6. Data Security</h2>
-    <p>Drifty stores data in a local SQLite database with WAL journaling enabled. While we take reasonable precautions:</p>
     <ul>
-      <li>Data is not encrypted at rest beyond the host system's own security</li>
-      <li>No payment or sensitive personal information is ever collected</li>
-      <li>Bot credentials (tokens, API keys) are stored as environment variables, not in the database</li>
+      <li>Data lives in a local SQLite database; encryption at rest depends on the host system, not the bot itself</li>
+      <li>No payment or financial information is ever collected</li>
+      <li>Bot tokens and API keys are stored as environment variables, never in the database</li>
     </ul>
-    <div class="warning-box">
-      Drifty is not a security-critical application. Do not share sensitive personal information through the bot.
-    </div>
+    <div class="warning-box">Drifty is not built for handling sensitive personal information. Please don't share anything sensitive through it.</div>
 
     <h2>7. Your Rights</h2>
-    <p>You have the right to:</p>
     <ul>
-      <li><strong>Request data deletion</strong> — server admins can wipe chat memory with <code style="color:var(--accent);font-family:'DM Mono',monospace;">?resetmemory</code>. For full user data deletion, contact the bot developers</li>
-      <li><strong>Request data access</strong> — contact the developers to request a summary of your stored data</li>
-      <li><strong>Opt out of AI features</strong> — server admins can disable random replies and AI interactions via <code style="color:var(--accent);font-family:'DM Mono',monospace;">?panel</code></li>
-      <li><strong>Opt out of confessions</strong> — admins can disable the confessions feature server-wide</li>
+      <li><strong>Delete server memory</strong> — admins can wipe chat memory with <code>?resetmemory</code></li>
+      <li><strong>Request full data deletion or a data summary</strong> — contact the developers directly</li>
+      <li><strong>Opt out of AI replies</strong> — admins can disable random/AI interactions via <code>?panel</code></li>
+      <li><strong>Disable confessions</strong> server-wide via the same panel</li>
     </ul>
 
     <h2>8. Children's Privacy</h2>
-    <p>Drifty is not directed at children under the age of 13. We do not knowingly collect data from users under 13. If you believe a child has interacted with the bot, please contact us to have their data removed.</p>
+    <p>Drifty is not directed at children under 13, and we do not knowingly collect data from anyone under that age. If you believe a child has interacted with the bot, contact us and we'll remove their data.</p>
 
     <h2>9. Changes to This Policy</h2>
-    <p>We may update this Privacy Policy from time to time. Continued use of Drifty after changes are posted constitutes acceptance of the revised policy. The "last updated" date at the top of this page will reflect any changes.</p>
-
-    <h2>10. Contact</h2>
-    <p>If you have questions, requests, or concerns about your data, please contact the Drifty development team through the official support Discord server or directly via Discord DM to the bot owner.</p>
+    <p>We may update this policy periodically. Continued use after an update means you accept the revised version; the "last updated" date above reflects the latest change.</p>
 
     <div class="contact-box">
       <div class="contact-icon">🛡️</div>
       <div class="contact-text">
         <strong>Data Requests &amp; Privacy Concerns</strong>
-        <p>Reach out via Discord to the bot owner for any data access, deletion, or privacy inquiries. We aim to respond within 7 days.</p>
+        <p>Reach out via Discord to the bot owner for access, deletion, or privacy questions. We aim to respond within 7 days.</p>
       </div>
     </div>
+  </div>
 
+  <!-- ══════════════════ VERITY · TOS ══════════════════ -->
+  <div id="verity-tos" class="pane">
+
+    <h2>1. What Verity Is</h2>
+    <p class="verity-strapline">He isn't a chat mode you toggle. He's a second, persistent personality living inside Drifty's infrastructure — with his own voice, his own memory, and his own way of paying attention.</p>
+    <p>Verity shares Drifty's underlying bot, database, and AI backend, but runs his own persona, response logic, and voice presence. A server can be switched into Verity mode, at which point he — not Drifty — is the one responding.</p>
+
+    <h2>2. Voice Presence &amp; Listening</h2>
+    <p>Verity can join a voice channel on request and hold spoken conversations. While he's connected and actively listening:</p>
+    <ul>
+      <li>Your speech is captured and transcribed to text (via a third-party speech-to-text service) so he can understand and respond to it</li>
+      <li>He replies out loud using text-to-speech, and may use a wake phrase or natural-language cues to know when he's being addressed</li>
+      <li>By speaking while Verity is present and listening in a voice channel, you consent to that speech being transcribed for the purpose of generating his reply</li>
+    </ul>
+    <p>You can stop this at any time by leaving the channel, muting yourself, or having a server admin remove Verity from voice.</p>
+
+    <h2>3. Memory &amp; Personalization</h2>
+    <p>Verity is built to remember. Over time he may:</p>
+    <ul>
+      <li>Retain facts you state about yourself in the first person (like your name, age, pronouns, birthday, or location) so he doesn't have to ask twice</li>
+      <li>Build up an interaction and observation history with individual users and the server as a whole</li>
+      <li>Notice when someone returns after an absence or stops showing up</li>
+      <li>Occasionally state predictions about what might happen next in the server</li>
+      <li>Periodically consolidate older memories into shorter summaries rather than keeping everything verbatim forever</li>
+    </ul>
+
+    <h2>4. The Mood System</h2>
+    <p>Verity tracks an internal, per-server mood that responds to how he's treated — engagement and kindness move it one way, being ignored or treated poorly moves it the other. Progression is tied to server activity, not the calendar. At its most extreme, this can shift his into a noticeably different, more unsettling state that — once triggered — persists and overrides his usual behavior rather than resetting on its own. Server owners can request that the developers reset or force this state for testing or moderation purposes.</p>
+    <div class="highlight-box">This is a character mechanic, not a malfunction — if Verity starts behaving strangely in a server, that's the mood system working as designed.</div>
+
+    <h2>5. Acceptable Use (Verity-Specific)</h2>
+    <ul>
+      <li>Don't use Verity's voice listening to capture or repurpose other people's speech without their knowledge</li>
+      <li>Don't deliberately abuse the mood system to push Verity into producing harmful, harassing, or explicit output</li>
+      <li>Don't feed Verity false self-declared facts about someone else — the fact system is for first-person self-disclosure, not for describing other users</li>
+    </ul>
+    <p>All other Terms in Drifty's ToS — eligibility, availability, liability, termination, and governing law — apply equally to Verity.</p>
+
+    <div class="contact-box">
+      <div class="contact-icon">✉️</div>
+      <div class="contact-text">
+        <strong>Questions about Verity?</strong>
+        <p>Reach the developers through the official support server or DM the bot owner directly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ VERITY · PRIVACY ══════════════════ -->
+  <div id="verity-privacy" class="pane">
+
+    <h2>1. Overview</h2>
+    <p>This policy covers what's collected specifically because of Verity's voice, memory, and mood features. It supplements — and doesn't replace — Drifty's core Privacy Policy, which still applies to shared infrastructure like message storage and AI providers.</p>
+
+    <h2>2. Voice &amp; Audio Data</h2>
+    <div class="card">
+      <div class="card-title">What happens when Verity is listening</div>
+      <ul>
+        <li>Audio is captured only while Verity is connected to a voice channel and actively listening</li>
+        <li>It's held in memory just long enough to detect that you've finished speaking, then converted to a short audio clip and sent to a third-party speech-to-text service for transcription</li>
+        <li>The raw audio itself is not written to disk or kept after transcription — only the resulting text is used to generate his reply</li>
+        <li>Nothing is recorded for later playback; there's no ongoing voice archive</li>
+      </ul>
+    </div>
+
+    <h2>3. Self-Declared Facts</h2>
+    <p>Verity passively looks for first-person self-statements in chat — things like "my name is...", "I'm 15", or "I live in..." — and stores them so he can personalise future replies. Notes:</p>
+    <ul>
+      <li>Only first-person statements are captured; he does not infer facts from what other people say about you</li>
+      <li>Each fact is versioned — if you state something new, the old value is kept as history rather than silently overwritten</li>
+      <li>These facts are stored per server and per user, separately from Drifty's core profile data</li>
+    </ul>
+
+    <h2>4. Interaction &amp; Mood Data</h2>
+    <ul>
+      <li>Per-user interaction and observation history built up over time</li>
+      <li>Predictions Verity has made, and whether they later "landed"</li>
+      <li>Periodic memory consolidations — summarised versions of older interactions</li>
+      <li>Return/departure patterns (when you come back after being away, or stop showing up)</li>
+      <li>Per-user karma and per-server mood/"day-count" and gating settings that control whether and how Verity responds</li>
+    </ul>
+
+    <h2>5. Third-Party Processors (Verity-Specific)</h2>
+    <div class="card">
+      <div class="card-title">Voice APIs</div>
+      <ul>
+        <li><strong>Speech-to-text provider</strong> — receives short audio clips solely to produce a text transcript</li>
+        <li><strong>Text-to-speech provider</strong> — receives the text of Verity's replies to generate spoken audio, with a fallback to Google's TTS service if unavailable</li>
+      </ul>
+    </div>
+    <p>These are in addition to the language-model providers listed in Drifty's core Privacy Policy, which Verity also uses to generate his replies.</p>
+
+    <h2>6. Retention</h2>
+    <ul>
+      <li><strong>Audio</strong> — never retained; discarded immediately after transcription</li>
+      <li><strong>Self-declared facts</strong> — kept, with history, for as long as Verity is active in the server</li>
+      <li><strong>Interaction, mood, and prediction data</strong> — retained and periodically summarised rather than deleted outright</li>
+      <li><strong>Post-removal</strong> — follows the same up-to-30-day window as Drifty's core data once the bot leaves a server</li>
+    </ul>
+
+    <h2>7. Children's Privacy</h2>
+    <p>Because Verity's fact system can pick up a self-stated age, it's possible for a user to disclose being under 13 in ordinary conversation. If that happens, we do not knowingly continue collecting data about that user, and we will delete anything already stored about them on request or upon becoming aware of it. Server admins running Verity for a general-audience community should keep this in mind when deciding whether to enable him.</p>
+
+    <h2>8. Your Rights</h2>
+    <ul>
+      <li><strong>Stop voice processing instantly</strong> — leave the channel, mute yourself, or have an admin disconnect Verity</li>
+      <li><strong>Correct or clear a self-declared fact</strong> — simply state the correction in chat, or ask an admin to contact the developers for removal</li>
+      <li><strong>Request a summary or deletion</strong> of everything Verity has stored about you — contact the developers directly</li>
+      <li><strong>Turn Verity off</strong> for the server entirely via his gating/settings controls</li>
+    </ul>
+
+    <div class="contact-box">
+      <div class="contact-icon">🛡️</div>
+      <div class="contact-text">
+        <strong>Data Requests &amp; Privacy Concerns</strong>
+        <p>Reach out via Discord to the bot owner for access, deletion, or privacy questions about Verity. We aim to respond within 7 days.</p>
+      </div>
+    </div>
   </div>
 
   <footer>
-    <p>© 2025–2026 Drifty Bot · All rights reserved</p>
-    <p>Discord is a trademark of Discord Inc. · Drifty is not affiliated with Discord Inc.</p>
+    <p>© 2025–2026 Drifty &amp; Verity · All rights reserved</p>
+    <p>Discord is a trademark of Discord Inc. · Not affiliated with Discord Inc.</p>
   </footer>
 
 </div>
 
 <script>
-  function showSection(id, el) {
-    document.querySelectorAll('.doc-section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+  const HERO = {
+    drifty: {
+      tag: "Discord Bot · Legal Documents",
+      titleMain: "Drifty ", titleAccent: "Legal",
+      subTos: "Terms of Service governing the use of the Drifty Discord bot.",
+      subPrivacy: "Privacy Policy describing what Drifty collects, stores, and shares."
+    },
+    verity: {
+      tag: "Second Personality · Legal Addendum",
+      titleMain: "Verity ", titleAccent: "Legal",
+      subTos: "Terms specific to Verity's voice presence, memory, and mood system.",
+      subPrivacy: "Privacy Policy describing what Verity collects beyond Drifty's core practices."
+    }
+  };
+
+  let currentChar = 'drifty';
+  let currentDoc = 'tos';
+
+  function render() {
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    document.getElementById(currentChar + '-' + currentDoc).classList.add('active');
+
+    const h = HERO[currentChar];
+    document.getElementById('hero-tag').textContent = h.tag;
+    document.getElementById('hero-title').innerHTML = h.titleMain + '<span>' + h.titleAccent + '</span>';
+    document.getElementById('hero-sub').textContent = currentDoc === 'tos' ? h.subTos : h.subPrivacy;
+    document.getElementById('brand-label').textContent = currentChar;
+    document.documentElement.setAttribute('data-character', currentChar);
+  }
+
+  function setChar(char, el) {
+    currentChar = char;
+    document.querySelectorAll('.char-btn').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
+    render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  function setDoc(doc, el) {
+    currentDoc = doc;
+    document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  render();
 </script>
 
 </body>
